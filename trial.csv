@@ -1,0 +1,6 @@
+design name, adder
+output directory, home/projects/tcl/output
+netlist directory, home/projects/tcl/net
+late lib path, lib
+early lib path, home/projects/vsd/Readme.md
+constaints file ,home/vsdflow/trial.csv
