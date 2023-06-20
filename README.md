@@ -3,8 +3,8 @@ create command(vsdsynth) and pass  .csv from UNIX shell to tcl script
 
 
 
-#DAY 2: 
-##CSV to format[1] and SDC variable creation
+# DAY 2: 
+## CSV to format[1] and SDC variable creation
 
 1.create variables to access paths through them
 2.check for existance of directories and files in .csv 
@@ -30,8 +30,8 @@ set DesignName $my_arr(1,0)
 
 ![Alt text](/home/deekshu/Pictures/Screenshots/Screenshot from 2023-06-18 15-18-54.png)
 
-#day3
-##convert .csv file to sdc format
+# day3
+## convert .csv file to sdc format
 
 1.getting clock details from csv file and writing it the sdc file in the required format
 2.getting input details from csv file and writing it in the required format
