@@ -13,8 +13,7 @@ create command(vsdsynth) and pass  .csv from UNIX shell to tcl script
 5.creat main synthesis scripts in format[2]
 6.pass this script to yosys  
  
- 
- ![Alt text](/home/deekshu/Pictures/Screenshots/Screenshot from 2023-06-17 09-03-37.png)
+ ![Screenshot from 2023-06-17 09-03-37](https://github.com/deck11/tcl_s/assets/114303670/7e342989-df75-4632-89d9-faef2319b70f)
  
 1.$argv[1] arguments to tcl script 
 tclsh vsdsynth.tcl my.csv - command for passing csv file to tcl
@@ -28,7 +27,8 @@ remove spaces in the vairialbes created(Design Name --> DesignName)
 assign value to variable by 
 set DesignName $my_arr(1,0)
 
-![Alt text](/home/deekshu/Pictures/Screenshots/Screenshot from 2023-06-18 15-18-54.png)
+![Screenshot from 2023-06-18 15-18-54](https://github.com/deck11/tcl_s/assets/114303670/33e79b93-96e0-4665-9075-1364a9353581)
+
 
 # day3
 ## convert .csv file to sdc format
@@ -37,12 +37,12 @@ set DesignName $my_arr(1,0)
 2.getting input details from csv file and writing it in the required format
 3.getting output details from csv file and writing it in the required format
 
-![Alt text](/home/deekshu/Pictures/Screenshots/Screenshot from 2023-06-18 19-52-17.png)
+![Screenshot from 2023-06-18 19-52-17](https://github.com/deck11/tcl_s/assets/114303670/e3f55886-4453-4904-be24-02a03d639b0a)
 
 
 Input and Output Constraints Generation and bits/Bussed Differentiation
 
-![Alt text](/home/deekshu/Pictures/Screenshots/Screenshot from 2023-06-20 23-40-03.png)
+![Screenshot from 2023-06-20 23-40-03](https://github.com/deck11/tcl_s/assets/114303670/0c7e2975-ad88-4241-a127-cef6eb533f6c)
 
 
 
