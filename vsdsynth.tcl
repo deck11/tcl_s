@@ -173,6 +173,7 @@ foreach f $netlist {
 close $fd
 }
 close $tmp_file
+
 set tmp_file [open ./temp/1 r]
 set tmp2_file [open ./temp/2 w]
 puts -nonewline $tmp2_file "[join [lsort -unique [split [read $tmp_file] \n]] \n]"
