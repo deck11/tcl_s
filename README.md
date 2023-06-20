@@ -44,6 +44,22 @@ Input and Output Constraints Generation and bits/Bussed Differentiation
 
 ![Screenshot from 2023-06-20 23-40-03](https://github.com/deck11/tcl_s/assets/114303670/0c7e2975-ad88-4241-a127-cef6eb533f6c)
 
+# day4
+
+Creating scripts for synthesis and running it on yosys
+creating script for Hierarchy check and running hierarchy check
+
+Hierachy check and error handling script creation for yosys
+![Screenshot from 2023-06-20 23-58-40](https://github.com/deck11/tcl_s/assets/114303670/b35d6434-e985-47e1-b952-7973b38c1987)
+
+no error 
+![image](https://github.com/deck11/tcl_s/assets/114303670/670408df-f2ca-47f9-8810-e208007f6e91)
+
+error 
+![image](https://github.com/deck11/tcl_s/assets/114303670/a4ad0658-5492-4b12-8764-1525690883b3)
+
+#day 5 
+
 
 
 
