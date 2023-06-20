@@ -262,6 +262,104 @@ close $tmp2_file
 close $sdc_file
 
 puts "\nInfo: SDC created. Please use constraints in path  $Output_Directory/$Design_Name.sdc"
+#-------------------------------- HIERARCHY CHECK ---------------------------------#
+
+puts "\nInfo: creating hierarchy check script to be used by yosys"
+set data "read_liberty -lib -ignore_miss_dir -setattr blackbox ${LateLibraryPath}"
+puts "data is \"$data\""
+set filename "$DesignName.hier.ys"
+puts "filename is \"$filename\""
+set fileId [open $OutputDirectory/$filename "w" ]
+puts "open \"$OutputDirectory/$filename\" in write mode"
+puts -nonewline $fileId $data
+set netlist [glob -dir $NetlistDirectory *.v]
+puts "netlist is \"$netlist\""
+foreach f $netlist {
+        set data $f
+        puts "data is \"$f\""
+        puts -nonewline $fileId "\nread_verilog $f"
+
+}
+puts -nonewline $fileId "\nhierarchy -check"
+close $fileId
+
+puts "\nclose \"$OutputDirectory/$filename\"\n"
+puts "\nChecking Hierarchy....."
+set my_err [catch { exec yosys -s $OutputDirectory/$DesignName.hier.ys >& $OutputDirectory/$DesignName.hierarchy_check.log} msg]
+puts "err flag is $my_err"
+
+
+if { $my_err } {
+        set filename "$OutputDirectory/$DesignName.hierarchy_check.log"
+        puts "log file name is $filename"
+        set pattern {reference in module}
+        puts "pattern is $pattern"
+        set count 0
+        set fid [open $filename r]
+         while {[gets $fid line] != -1} {
+                incr count [regexp -all --$pattern $line]
+                if {[regexp -all -- $pattern $line]} {
+                        puts "\nerror: module [lindex $line 2] is not part of design $Design . PLease correct RTL in the path '$NetlistDirectory'"
+                        puts "\nINfo: Hierarchy check fail "
+                }
+        }
+        close $fid
+} else {
+        puts "\nInfo: Hierarchy check PASS"
+}
+puts "\nInfo: please find hierarchy check details in [file normalize $OutputDirectory/$DesignName.hierarchy_check.log] for more info "
+cd $working_dir
+
+#------------------------------SYNTHESIS---------------------------------------------------#
+puts "\nInfo: Creating main synthesis script"
+set data "read_liberty -lib -ignore_miss_dir -setattr blackbox ${LateLibraryPath}"
+set filename "$DesignName.ys"
+set fileId [open $OutputDirectory/$filename "w"]
+puts -nonewline $fileId $data
+
+set netlist [glob -dir $NetlistDirectory *.v]
+foreach f $netlist {
+        set data $f
+        puts -nonewline $fileId "\nread_verilog $f"
+}
+puts -nonewline $fileId "\nhierarchy -top $DesignName"
+puts -nonewline $fileId "\nsynth -top $DesignName"
+puts -nonewline $fileId "\nsplitnets -ports -format __\ndfflibmap -liberty ${LateLibraryPath}\nopt"
+puts -nonewline $fileId "\nabc -liberty ${LateLibraryPath} "
+puts -nonewline $fileId "\nflatten"
+puts -nonewline $fileId "\nclean -purge\niopadmap -outpad BUFX2 A:Y -bits\nopt\nclean"
+puts -nonewline $fileId "\nwrite_verilog $OutputDirectory/$DesignName.synth.v"
+close $fileId
+puts "\nInfo:Synthesis script created and can be accessed from path $OutputDirectory/$DesignName.ys"
+puts "\nInfo: Running synthesis..."
+
+
+if {[catch { exec yosys -s $OutputDirectory/$DesignName.ys >& $OutputDirectory/$DesignName.synthese.log} msg]} {
+        puts "\nError: Synthesis Failed."
+} else {
+        puts "\nInfo: Synthesis finished successfully"
+}
+puts "\nInfo: Please refer to log $OutputDirectory/$DesignName.synthesis.log"
+
+##Edit synth.v##
+set fileId [open ./temp/x "w"]
+puts -nonewline $fileId [exec grep -v -w "*" $OutputDirectory/$DesignName.synth.v]
+ close $fileId
+
+
+set output [open $OutputDirectory/$DesignName.final.synth.v "w"]
+
+set filename "./temp/x"
+set fid [open $filename r]
+        while {[gets $fid line] != -1} {
+        puts -nonewline $output [string map {"\\" ""} $line]
+        puts -nonewline $output "\n"
+}
+close $fid
+close $output
+
+puts "\nInfo: Find synthesized netlist for $DesignName at below path which can be used for STA or PNR"
+puts "\n$OutputDirectory/$DesignName.final.synth.v"
 
 return
 
