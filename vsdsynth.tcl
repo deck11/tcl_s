@@ -1,7 +1,7 @@
 #! /bin/env tclsh
 
 #-----------------------------------------------------------#
-#----- Checks whether panda usage is correct or not -----#
+#----- Checks usage is correct or not -----#
 #-----------------------------------------------------------#
 
 set generate_sdc 1
